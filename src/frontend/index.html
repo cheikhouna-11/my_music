@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Music - Plateforme de Streaming</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/theme-light.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="glass-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <nav class="navbar-container">
+        <div class="navbar">
+            <div class="logo">My Music</div>
+            <div class="navbar-search-wrapper">
+                <button class="navbar-action-btn search-toggle" id="search-toggle" type="button" aria-label="Rechercher">
+                    <i class="fas fa-search"></i>
+                </button>
+                <div class="search-bar" id="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="music-search" placeholder="Rechercher un titre, un artiste...">
+                    <button class="search-close" id="search-close" type="button" aria-label="Fermer la recherche">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="navbar-actions" id="navbar-actions">
+                <button class="navbar-action-btn" id="profile-btn" type="button" aria-label="Profil/Connexion">
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <h2 class="section-title">Titres du moment</h2>
+        
+        <div class="music-grid" id="music-list">
+            </div>
+    </main>
+
+    <button class="floating-action-btn" id="share-fab" type="button" aria-label="Partager une musique">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <div class="modal-overlay" id="share-modal" aria-hidden="true">
+        <div class="modal-card">
+            <button class="modal-close" id="close-modal" type="button" aria-label="Fermer">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3>Partager une musique</h3>
+            <p>Ajoutez une piste, son artiste et une couverture optionnelle.</p>
+
+            <form id="share-form" class="share-form">
+                <label class="form-group">
+                    <span>Titre</span>
+                    <input type="text" id="share-title" name="title" placeholder="Nom de la musique" required>
+                </label>
+
+                <label class="form-group">
+                    <span>Artiste</span>
+                    <input type="text" id="share-artist" name="artist" placeholder="Nom de l'artiste" required>
+                </label>
+
+                <label class="form-group">
+                    <span>Fichier audio</span>
+                    <input type="file" id="share-audio" name="audio" accept="audio/*" required>
+                    <small id="share-audio-name">Aucun fichier sélectionné</small>
+                </label>
+
+                <label class="form-group">
+                    <span>Cover (optionnel)</span>
+                    <input type="file" id="share-cover" name="cover" accept="image/*">
+                    <img id="share-cover-preview" class="cover-preview" alt="Aperçu du cover">
+                </label>
+
+                <p id="share-form-status" class="form-status" role="status"></p>
+                <button type="submit" class="submit-btn">Partager</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="auth-modal" aria-hidden="true">
+        <div class="modal-card">
+            <button class="modal-close" id="close-auth-modal" type="button" aria-label="Fermer">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <!-- Étape 1 : Connexion -->
+            <div id="auth-login-step" class="auth-step active">
+                <h3>Connexion</h3>
+                <p>Accédez à votre bibliothèque et partagez vos titres.</p>
+                <form id="login-form" class="share-form">
+                    <label class="form-group">
+                        <span>Adresse Email</span>
+                        <input type="email" id="login-email" placeholder="votre@adresse.com" required>
+                    </label>
+                    <label class="form-group">
+                        <span>Mot de passe</span>
+                        <input type="password" id="login-password" placeholder="••••••••" required>
+                    </label>
+                    <p id="login-status" class="form-status" role="status"></p>
+                    <button type="submit" class="submit-btn">Se connecter</button>
+                    <p style="text-align: center; margin-top: 10px; font-size: 0.9rem;">
+                        Pas encore de compte ? <a href="#" id="go-to-register" style="color: #00f2fe; text-decoration: none;">S'inscrire</a>
+                    </p>
+                </form>
+            </div>
+
+            <!-- Étape 2 : Inscription -->
+            <div id="auth-register-step" class="auth-step">
+                <h3>Inscription</h3>
+                <p>Créez un compte pour rejoindre la communauté My Music.</p>
+                <form id="register-form" class="share-form">
+                    <label class="form-group">
+                        <span>Nom d'utilisateur</span>
+                        <input type="text" id="register-username" placeholder="Pseudo" required>
+                    </label>
+                    <label class="form-group">
+                        <span>Adresse Email</span>
+                        <input type="email" id="register-email" placeholder="votre@adresse.com" required>
+                    </label>
+                    <label class="form-group">
+                        <span>Mot de passe</span>
+                        <input type="password" id="register-password" placeholder="••••••••" required>
+                    </label>
+                    <label class="form-group">
+                        <span>Confirmer le mot de passe</span>
+                        <input type="password" id="register-confirm-password" placeholder="••••••••" required>
+                    </label>
+                    <p id="register-status" class="form-status" role="status"></p>
+                    <button type="submit" class="submit-btn">S'inscrire</button>
+                    <p style="text-align: center; margin-top: 10px; font-size: 0.9rem;">
+                        Déjà un compte ? <a href="#" id="go-to-login" style="color: #00f2fe; text-decoration: none;">Se connecter</a>
+                    </p>
+                </form>
+            </div>
+
+            <!-- Étape 3 : Code OTP -->
+            <div id="auth-otp-step" class="auth-step">
+                <h3>Vérification OTP</h3>
+                <p id="otp-message">Saisissez le code à 6 chiffres envoyé par email.</p>
+                <form id="otp-form" class="share-form">
+                    <label class="form-group">
+                        <span>Code OTP</span>
+                        <input type="text" id="otp-code" placeholder="123456" maxlength="6" pattern="[0-9]{6}" required style="text-align: center; font-size: 1.5rem; letter-spacing: 10px;">
+                    </label>
+                    <p id="otp-status" class="form-status" role="status"></p>
+                    <button type="submit" class="submit-btn">Valider</button>
+                    <p style="text-align: center; margin-top: 10px; font-size: 0.9rem;">
+                        <a href="#" id="go-back-register" style="color: #00f2fe; text-decoration: none;">Retour</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="audio-player-container">
+        <div class="audio-player">
+            <div class="track-info">
+                <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=100&auto=format&fit=crop&q=60" alt="Cover" id="current-cover">
+                <div>
+                    <h4 id="current-title">Sélectionnez un titre</h4>
+                    <p id="current-artist">Artiste</p>
+                </div>
+            </div>
+
+            <div class="player-controls">
+                <button class="control-btn" id="prev-btn"><i class="fas fa-step-backward"></i></button>
+                <button class="control-btn play-main" id="play-btn"><i class="fas fa-play"></i></button>
+                <button class="control-btn" id="next-btn"><i class="fas fa-step-forward"></i></button>
+            </div>
+
+            <div class="progress-container">
+                <span id="current-time">0:00</span>
+                <input type="range" id="progress-bar" value="0" max="100">
+                <span id="total-duration">0:00</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/likes.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/script.js"></script>
+</body>

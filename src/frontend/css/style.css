@@ -1,0 +1,646 @@
+/* Réinitialisation de base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: #0f1319;
+    color: #ffffff;
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding-bottom: 120px; /* Espace pour le lecteur audio */
+}
+
+/* Arrière-plan Liquide */
+.glass-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    animation: move 10s infinite alternate;
+}
+
+.blob-1 {
+    width: 400px;
+    height: 400px;
+    background: #00f2fe;
+    top: -10px;
+    left: -10px;
+}
+
+.blob-2 {
+    width: 500px;
+    height: 500px;
+    background: #4facfe;
+    bottom: -5px;
+    right: -5px;
+    animation-delay: 2s;
+}
+
+@keyframes move {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(80px, 50px) scale(1.2); }
+}
+
+/* Navbar Centrée avec Glassmorphism */
+.navbar-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    max-width: 800px;
+    padding: 12px 30px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    background: linear-gradient(45deg, #00f2fe, #4facfe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    width: 60%;
+}
+
+.search-bar i {
+    color: rgba(255, 255, 255, 0.6);
+    margin-right: 10px;
+}
+
+.search-bar input {
+    background: none;
+    border: none;
+    color: white;
+    outline: none;
+    width: 100%;
+    font-size: 0.9rem;
+}
+
+/* Grille de Contenu */
+.main-content {
+    margin-top: 120px;
+    padding: 0 5%;
+}
+
+.section-title {
+    margin-bottom: 30px;
+    font-weight: 500;
+    font-size: 1.6rem;
+}
+
+.music-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+/* Cartes de Musique (Liquid Glass) */
+.music-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 15px;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+}
+
+.music-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(0, 242, 254, 0.4);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.cover-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.cover-wrapper img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-info h3 {
+    font-size: 1.05rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 5px;
+}
+
+.card-info p {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 15px;
+}
+
+/* Actions boutons sur la carte */
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: color 0.2s, transform 0.1s;
+}
+
+.action-btn:hover {
+    color: #00f2fe;
+}
+
+.action-btn.liked {
+    color: #ff4757;
+}
+
+.floating-action-btn {
+    position: fixed;
+    right: 24px;
+    bottom: 150px;
+    width: 58px;
+    height: 58px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00f2fe, #4facfe);
+    color: #07131d;
+    font-size: 1.4rem;
+    cursor: pointer;
+    box-shadow: 0 12px 30px rgba(0, 242, 254, 0.25);
+    z-index: 120;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.floating-action-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 16px 35px rgba(0, 242, 254, 0.35);
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 8, 14, 0.72);
+    backdrop-filter: blur(10px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 200;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-card {
+    width: min(92vw, 520px);
+    background: rgba(10, 16, 24, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+    padding: 24px;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    border: none;
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.modal-card h3 {
+    margin-bottom: 8px;
+    font-size: 1.2rem;
+}
+
+.modal-card p {
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 16px;
+    font-size: 0.95rem;
+}
+
+.share-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.95rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="file"] {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 12px;
+    padding: 10px 12px;
+    outline: none;
+}
+
+.form-group input[type="file"] {
+    padding: 8px;
+}
+
+.form-group small {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.cover-preview {
+    display: none;
+    width: 100%;
+    max-height: 180px;
+    object-fit: cover;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.cover-preview.show {
+    display: block;
+}
+
+.form-status {
+    min-height: 20px;
+    font-size: 0.9rem;
+}
+
+.form-status.success {
+    color: #5cf0b4;
+}
+
+.form-status.error {
+    color: #ff7b7b;
+}
+
+.submit-btn {
+    border: none;
+    padding: 12px 16px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #00f2fe, #4facfe);
+    color: #07131d;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* Lecteur Audio Flottant */
+.audio-player-container {
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0 20px;
+    z-index: 100;
+}
+
+.audio-player {
+    width: 100%;
+    max-width: 900px;
+    background: rgba(15, 19, 25, 0.6);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 15px 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+.track-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.track-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.track-info h4 {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.track-info p {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.player-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: opacity 0.2s;
+}
+
+.control-btn:hover {
+    opacity: 0.8;
+}
+
+.play-main {
+    background: white;
+    color: black;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.progress-container input {
+    width: 60%;
+    accent-color: #00f2fe;
+    cursor: pointer;
+}
+
+.profile-page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.profile-card {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 24px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.avatar-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #00f2fe, #4facfe);
+    color: #07131d;
+}
+
+.profile-meta {
+    margin-top: 6px;
+    color: rgba(255, 255, 255, 0.66);
+}
+
+.profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.submit-btn.secondary {
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.profile-section {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 22px;
+    padding: 20px;
+}
+
+.section-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.section-title-row span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    height: 34px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: rgba(0, 242, 254, 0.14);
+    color: #7ae8ff;
+    font-weight: 700;
+}
+
+.profile-music-card .card-actions {
+    gap: 10px;
+}
+
+.action-btn.danger {
+    color: #ff7b7b;
+}
+
+.empty-state {
+    color: rgba(255, 255, 255, 0.68);
+    padding: 24px 0;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+    .navbar {
+        width: 100%;
+        border-radius: 25px;
+        padding: 10px 20px;
+    }
+    
+    .search-bar {
+        width: 50%;
+    }
+
+    .audio-player {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        justify-content: center;
+        text-align: center;
+        border-radius: 20px;
+        padding: 15px;
+    }
+
+    .track-info {
+        justify-content: center;
+    }
+
+    .progress-container {
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .progress-container input {
+        width: 70%;
+    }
+
+    .floating-action-btn {
+        right: 16px;
+        bottom: 140px;
+    }
+
+    .modal-card {
+        padding: 20px;
+    }
+}
+
+/* Styles pour le modal d'authentification */
+.auth-step {
+    display: none;
+    animation: fadeUp 0.25s ease;
+}
+
+.auth-step.active {
+    display: block;
+}
+
+.auth-step h3 {
+    margin-bottom: 6px;
+}
+
+.auth-step > p {
+    margin-bottom: 18px;
+    color: rgba(255, 255, 255, 0.76);
+}
+
+.auth-step .share-form .form-group input[type="email"],
+.auth-step .share-form .form-group input[type="password"],
+.auth-step .share-form .form-group input[type="text"] {
+    padding: 12px 14px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.auth-step .share-form .form-group input:focus {
+    border-color: rgba(0, 242, 254, 0.65);
+    box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.14);
+}
+
+.auth-step .submit-btn {
+    margin-top: 4px;
+}
+
+.auth-step .form-status {
+    min-height: 18px;
+    margin-top: 4px;
+}
+
+.auth-step a {
+    transition: color 0.2s ease;
+}
+
+.auth-step a:hover {
+    color: #7ae8ff;
+}
+
+.auth-step .otp-highlight {
+    display: inline-block;
+    color: #7ae8ff;
+    font-weight: 600;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

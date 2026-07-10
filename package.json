@@ -1,0 +1,21 @@
+{
+  "name": "my_music",
+  "version": "1.0.0",
+  "description": "Application pour ce partager de la bonne musique",
+  "license": "ISC",
+  "author": "Bammite Prince",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+    
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "busboy": "^1.6.0",
+    "dotenv": "^17.4.2",
+    "mysql2": "^3.11.0",
+    "nodemon": "^3.1.14"
+  }
+}

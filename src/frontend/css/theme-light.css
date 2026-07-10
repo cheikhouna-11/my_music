@@ -1,0 +1,98 @@
+:root {
+    color-scheme: light;
+    --bg-primary: #f5f7fb;
+    --bg-secondary: #ffffff;
+    --bg-glass: rgba(255, 255, 255, 0.78);
+    --text-primary: #101828;
+    --text-secondary: #475467;
+    --border-color: rgba(15, 23, 42, 0.1);
+    --accent: #2563eb;
+    --accent-2: #0ea5e9;
+    --shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
+}
+
+body.theme-light {
+    background: linear-gradient(135deg, #f8fbff 0%, #eef4ff 100%);
+    color: var(--text-primary);
+}
+
+body.theme-light .glass-bg .blob {
+    opacity: 0.25;
+}
+
+body.theme-light .navbar,
+body.theme-light .music-card,
+body.theme-light .profile-card,
+body.theme-light .profile-section,
+body.theme-light .modal-card,
+body.theme-light .audio-player {
+    background: var(--bg-glass);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    color: var(--text-primary);
+}
+
+body.theme-light .logo,
+body.theme-light .section-title,
+body.theme-light .card-info h3,
+body.theme-light .modal-card h3,
+body.theme-light .track-info h4,
+body.theme-light .profile-header h2 {
+    color: var(--text-primary);
+}
+
+body.theme-light .search-bar,
+body.theme-light .form-group input,
+body.theme-light .form-group input[type="file"],
+body.theme-light .navbar-action-btn {
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+body.theme-light .search-bar input,
+body.theme-light .form-group input,
+body.theme-light .form-group input[type="file"] {
+    color: var(--text-primary);
+}
+
+body.theme-light .navbar-action-btn:hover,
+body.theme-light .navbar-action-btn.active,
+body.theme-light .submit-btn,
+body.theme-light .floating-action-btn {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: white;
+}
+
+body.theme-light .action-btn,
+body.theme-light .control-btn,
+body.theme-light .modal-close {
+    color: var(--text-primary);
+}
+
+body.theme-light .action-btn:hover,
+body.theme-light .control-btn:hover,
+body.theme-light .modal-close:hover {
+    color: var(--accent);
+}
+
+body.theme-light .form-status.success {
+    color: #0f9d68;
+}
+
+body.theme-light .form-status.error {
+    color: #d14343;
+}
+
+body.theme-light .music-card:hover,
+body.theme-light .navbar-action-btn:hover {
+    border-color: rgba(37, 99, 235, 0.35);
+}
+
+body.theme-light .profile-meta,
+body.theme-light .modal-card p,
+body.theme-light .card-info p,
+body.theme-light .track-info p,
+body.theme-light .empty-state {
+    color: var(--text-secondary);
+}

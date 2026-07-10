@@ -1,0 +1,14 @@
+{
+  "name": "my-music-mail-service",
+  "version": "1.0.0",
+  "description": "Microservice d'envoi d'emails pour My Music",
+  "main": "mail.js",
+  "scripts": {
+    "start": "node mail.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^4.21.2",
+    "nodemailer": "^6.9.0"
+  }
+}

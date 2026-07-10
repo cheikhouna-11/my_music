@@ -1,0 +1,13 @@
+{
+  "name": "my-music-upload-service",
+  "version": "1.0.0",
+  "description": "Microservice de téléchargement et stockage de contenus multimédias pour My Music",
+  "main": "upload.js",
+  "scripts": {
+    "start": "node upload.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "multer": "^1.4.1"
+  }
+}

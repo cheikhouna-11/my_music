@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil - My Music</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="glass-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <nav class="navbar-container">
+        <div class="navbar">
+            <a class="logo" href="/" style="text-decoration:none;">My Music</a>
+            <div class="navbar-actions" id="navbar-actions">
+                <button class="navbar-action-btn" id="profile-btn" type="button" aria-label="Profil/Connexion">
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content profile-page">
+        <section class="profile-card">
+            <div class="profile-header">
+                <div class="avatar-circle" id="profile-avatar">U</div>
+                <div>
+                    <h2 id="profile-name">Chargement…</h2>
+                    <p id="profile-email">Chargement…</p>
+                    <p id="profile-meta" class="profile-meta">Membre depuis —</p>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <button class="submit-btn" onclick="window.location.href='/'">Retour à l'accueil</button>
+                <button class="submit-btn secondary" onclick="window.logoutUser()">Se déconnecter</button>
+            </div>
+        </section>
+
+        <section class="profile-section">
+            <div class="section-title-row">
+                <h3>Mes musiques partagées</h3>
+                <span id="profile-count">0</span>
+            </div>
+            <div id="profile-musics" class="music-grid profile-grid"></div>
+        </section>
+    </main>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html>
