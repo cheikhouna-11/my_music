@@ -36,7 +36,7 @@ body {
 .blob-1 {
     width: 400px;
     height: 400px;
-    background: #00f2fe;
+    background: #04bec8;
     top: -10px;
     left: -10px;
 }
@@ -199,7 +199,7 @@ body {
 }
 
 .action-btn:hover {
-    color: #00f2fe;
+    color: #022985;
 }
 
 .action-btn.liked {
@@ -437,7 +437,7 @@ body {
 
 .progress-container input {
     width: 60%;
-    accent-color: #00f2fe;
+    accent-color: #0b6fda;
     cursor: pointer;
 }
 
@@ -516,7 +516,7 @@ body {
     padding: 0 10px;
     border-radius: 999px;
     background: rgba(0, 242, 254, 0.14);
-    color: #7ae8ff;
+    color: #11879f;
     font-weight: 700;
 }
 
