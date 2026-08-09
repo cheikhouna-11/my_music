@@ -1,0 +1,29 @@
+# Le contexte de build est toujours la racine du repo (voir Dockerfile / docker-compose.yml)
+**/node_modules
+**/npm-debug.log*
+
+# Secrets / configuration locale
+.env
+.env.*
+**/.env
+**/.env.*
+
+# Fichiers versionnés mais non nécessaires dans l'image
+.git
+.gitignore
+*.md
+.DS_Store
+**/.DS_Store
+
+# Données locales (montées via volumes en runtime, jamais copiées dans l'image)
+uploads
+**/uploads
+
+# Fichiers Docker eux-mêmes (inutiles à l'intérieur de l'image)
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Éditeurs / IDE
+.vscode
+.idea

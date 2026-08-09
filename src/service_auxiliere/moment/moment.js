@@ -17,6 +17,10 @@ app.use((req, res, next) => {
     next();
 });
 
+app.get('/health', (req, res) => {
+    res.json({ status: 'ok', service: 'moment' });
+});
+
 /**
  * Route principale : Détermine si c'est le matin ou le soir
  * Matin : de 06:00 à 17:59

@@ -2,6 +2,7 @@ const { connectToDatabase } = require('../../index');
 const bcrypt = require('bcrypt');
 
 const pendingUsers = new Map(); // Stockage temporaire en mémoire des inscriptions en cours
+const MAIL_SERVICE_URL = process.env.MAIL_SERVICE_URL || 'http://127.0.0.1:4001';
 
 async function register(req, res) {
   try {
@@ -41,7 +42,7 @@ async function register(req, res) {
 
     // Envoyer l'OTP via le microservice mail
     try {
-      const mailResponse = await fetch('http://127.0.0.1:4001/send', {
+      const mailResponse = await fetch(`${MAIL_SERVICE_URL}/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

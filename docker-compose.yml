@@ -1,0 +1,172 @@
+name: my_music
+
+x-node-defaults: &node-defaults
+  restart: unless-stopped
+  networks:
+    - my_music_net
+  logging:
+    driver: json-file
+    options:
+      max-size: "10m"
+      max-file: "3"
+
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-changeme}
+      MYSQL_DATABASE: ${DB_NAME:-my_music}
+      MYSQL_USER: ${DB_USER:-my_music}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-changeme}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      # Exécuté une seule fois, au tout premier démarrage du volume (init MySQL officiel).
+      - ./schema.sql:/docker-entrypoint-initdb.d/10-schema.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD:-changeme}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - my_music_net
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M
+
+  app:
+    <<: *node-defaults
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_DIR: .
+        START_FILE: server.js
+    environment:
+      HOST: 0.0.0.0
+      PORT: 3000
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: ${DB_USER:-my_music}
+      DB_PASSWORD: ${DB_PASSWORD:-changeme}
+      DB_NAME: ${DB_NAME:-my_music}
+      MAIL_SERVICE_URL: http://mail:4001
+      MOMENT_SERVICE_URL: http://moment:3004
+    ports:
+      - "3000:3000"
+    volumes:
+      # Fichiers uploadés via /api/upload (busboy) : doivent survivre aux
+      # redémarrages/redéploiements du conteneur -> volume nommé persistant.
+      # Pour un vrai déploiement multi-réplicas, remplacer par un stockage
+      # objet partagé (S3/MinIO/GCS) : un volume local n'est pas partagé
+      # entre plusieurs instances de "app".
+      - uploads_data:/app/uploads
+    depends_on:
+      mysql:
+        condition: service_healthy
+      mail:
+        condition: service_healthy
+      moment:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M
+
+  mail:
+    <<: *node-defaults
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_DIR: src/service_auxiliere/mail
+        START_FILE: mail.js
+    environment:
+      PORT: 4001
+      SMTP_HOST: ${SMTP_HOST:-smtp.example.com}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USERNAME: ${SMTP_USERNAME:-user@example.com}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-password}
+      SMTP_FROM_NAME: ${SMTP_FROM_NAME:-My Music}
+      SMTP_FROM_EMAIL: ${SMTP_FROM_EMAIL:-no-reply@my-music.app}
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:4001/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+
+  moment:
+    <<: *node-defaults
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_DIR: src/service_auxiliere/moment
+        START_FILE: moment.js
+    environment:
+      PORT: 3004
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3004/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 128M
+
+  # Microservice d'upload autonome (multer). Non utilisé par le frontend
+  # actuel (qui appelle /api/upload sur "app"), mais fourni car présent dans
+  # le repo et documenté dans le README. Conservé isolé avec son propre volume.
+  upload:
+    <<: *node-defaults
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_DIR: src/service_auxiliere/upload
+        START_FILE: upload.js
+    environment:
+      PORT: 4002
+      UPLOAD_DIR: /app/uploads
+      BASE_URL: ${UPLOAD_BASE_URL:-http://localhost:4002}
+    volumes:
+      - upload_service_data:/app/uploads
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:4002/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+
+networks:
+  my_music_net:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  uploads_data:
+  upload_service_data:

@@ -10,7 +10,7 @@ function initNavbar() {
 
     const detectThemeFromMomentService = async () => {
         try {
-            const response = await fetch('http://localhost:3004/api/time-of-day');
+            const response = await fetch('/api/moment/time-of-day');
             const data = await response.json();
             console.log('Réponse du service moment :', data);
             const isDarkTheme = data?.period === 'soir';

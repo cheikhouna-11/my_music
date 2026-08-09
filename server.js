@@ -12,8 +12,9 @@ const { toggleLike } = require('./src/backend/routes/likes');
 const { handleUpload } = require('./src/backend/routes/upload');
 const { register, verifyOtp, login } = require('./src/backend/routes/auth');
 
-const hostname = '127.0.0.1';
+const hostname = process.env.HOST || '0.0.0.0';
 const port = process.env.PORT || 3000;
+const MOMENT_SERVICE_URL = process.env.MOMENT_SERVICE_URL || 'http://127.0.0.1:3004';
 const frontendDir = path.join(__dirname, 'src', 'frontend');
 const MAX_JSON_BODY_SIZE = 1024 * 1024 * 100;
 
@@ -172,6 +173,25 @@ const server = http.createServer(async (req, res) => {
 
   if (pathname === '/profile' || pathname === '/profile.html') {
     sendFile(req, res, path.join(frontendDir, 'profile.html'));
+    return;
+  }
+
+  if (req.method === 'GET' && pathname === '/healthz') {
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(JSON.stringify({ status: 'ok' }));
+    return;
+  }
+
+  if (req.method === 'GET' && pathname === '/api/moment/time-of-day') {
+    try {
+      const upstream = await fetch(`${MOMENT_SERVICE_URL}/api/time-of-day`);
+      const data = await upstream.json();
+      res.writeHead(upstream.status, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify(data));
+    } catch (error) {
+      res.writeHead(502, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({ success: false, error: 'Microservice moment indisponible.' }));
+    }
     return;
   }
 
