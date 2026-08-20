@@ -80,3 +80,18 @@ Non commencés.
 ---
 
 *Dernière mise à jour : 16/08/2026, par Maadjou, fin de J1.*
+
+
+
+#### Précision
+**Précision sur l'origine du commit `258a97b` :** ce commit (multi-stage build, 
+utilisateur non-root, tini, healthcheck /healthz, etc.) a été poussé sur la 
+branche `develop` le 9 août 2026 par une tierce personne extérieure au binôme 
+(signature Git "Baye Sabarane LAM"), et non par un membre de l'équipe. Le binôme 
+a choisi de conserver cette base comme socle de containerisation plutôt que de 
+repartir de zéro, jugeant sa qualité technique supérieure à ce qui avait été 
+commencé en interne (voir décision J1 ci-dessus). Le travail propre du binôme 
+sur cette base a consisté en : [à compléter — ex. tests de bout en bout, 
+correction du bug HOST 0.0.0.0, diagramme AS-IS, constats WAF, puis toute la 
+partie conception/déploiement AWS à partir de J2].
+
