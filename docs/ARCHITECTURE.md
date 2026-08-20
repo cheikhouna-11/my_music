@@ -88,3 +88,9 @@ Ce service ne fait qu'un calcul d'heure sans aucun I/O. Ce n'est pas un bon cand
 - Définir la structure des topics/événements (un topic générique avec attributs de filtrage, ou un topic par domaine).
 
 Aucune de ces étapes n'est implémentée à ce stade — ce document sert de base de discussion avant tout développement.
+
+## Décision retenue (J2, validée par le binôme)
+
+**`upload`** — Upload direct vers S3 via URL présignée : le navigateur uploade directement sur S3, `app` ne reçoit plus le binaire. Le fan-out SNS/Lambda vers des traitements additionnels (miniature, scan antivirus, métadonnées) reste une piste identifiée mais **hors périmètre** pour la deadline du 24/08 — pourra être ajouté si le temps le permet une fois le socle sécurisé.
+
+**`moment`** — Supprimé en tant que microservice indépendant ; son calcul (5 lignes, pas d'I/O) est rapatrié directement dans `server.js` (`app`). Décision validée par les deux membres du binôme le [date] par échange direct.
