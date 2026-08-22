@@ -10,6 +10,7 @@ const { getProfile, deleteMusique } = require('./src/backend/routes/profile');
 const { trackDownload } = require('./src/backend/routes/downloads');
 const { toggleLike } = require('./src/backend/routes/likes');
 const { handleUpload } = require('./src/backend/routes/upload');
+const { getPresignedUploadUrl } = require('./src/backend/routes/presign');
 const { register, verifyOtp, login } = require('./src/backend/routes/auth');
 
 const hostname = process.env.HOST || '0.0.0.0';
@@ -204,6 +205,12 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
       res.end(JSON.stringify({ success: false, error: error.message }));
     }
+    return;
+  }
+
+  // Génère une URL présignée S3 pour upload direct depuis le navigateur
+  if (req.method === 'GET' && pathname === '/api/upload/presign') {
+    await getPresignedUploadUrl(req, res);
     return;
   }
 

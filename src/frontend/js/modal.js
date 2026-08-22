@@ -1,25 +1,24 @@
-/**
- * Envoie un fichier au microservice d'upload et retourne l'URL publique.
- * @param {File} file
- * @returns {Promise<string>} URL du fichier uploadé
- */
 async function uploadFile(file) {
-    const formData = new FormData();
-    formData.append('file', file);
+    const presignResponse = await fetch(
+        `/api/upload/presign?filename=${encodeURIComponent(file.name)}&contentType=${encodeURIComponent(file.type)}`
+    );
+    const presignData = await presignResponse.json();
 
-    const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData
-    });
-
-    const data = await response.json();
-
-    if (!response.ok || !data.success) {
-        throw new Error(data.error || 'Erreur lors de l\'upload du fichier.');
+    if (!presignResponse.ok || !presignData.success) {
+        throw new Error(presignData.error || 'Erreur lors de la préparation de l\'upload.');
     }
 
-    // Retourner l'URL proxifiée via le serveur principal pour éviter les CORS
-    return `/uploads/${data.fileName}`;
+    const uploadResponse = await fetch(presignData.uploadUrl, {
+        method: 'PUT',
+        headers: { 'Content-Type': file.type },
+        body: file
+    });
+
+    if (!uploadResponse.ok) {
+        throw new Error('Erreur lors de l\'upload du fichier vers S3.');
+    }
+
+    return presignData.publicUrl;
 }
 
 function initShareModal() {
